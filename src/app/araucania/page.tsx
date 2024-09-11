@@ -17,7 +17,7 @@ const AraucaniaPage = () => {
   return start ? (
     <View360 places={places} />
   ) : (
-    <button onClick={() => setStart(true)}> COMENZAR </button>
+    <button onClick={() => setStart(true)}> Comenzar </button>
   );
 };
 
