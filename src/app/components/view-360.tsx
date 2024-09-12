@@ -3,8 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import Image from "next/image";
 import { Place } from "../interfaces/Place";
+import { Compass, Menu } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 const View360 = ({ places }: { places: Place[] }) => {
+  const [giroScopeActive, setgiroScopeActive] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -20,6 +23,7 @@ const View360 = ({ places }: { places: Place[] }) => {
   const thetaRef = useRef(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showGyroscopeButton, setShowGyroscopeButton] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onWindowResize = useCallback(() => {
     if (cameraRef.current && rendererRef.current) {
@@ -143,26 +147,39 @@ const View360 = ({ places }: { places: Place[] }) => {
     }
   }, []);
 
-  const requestGyroscopePermission = useCallback(() => {
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof (DeviceOrientationEvent as any).requestPermission === "function"
-    ) {
-      (DeviceOrientationEvent as any)
-        .requestPermission()
-        .then((permissionState: string) => {
-          if (permissionState === "granted") {
-            window.addEventListener("deviceorientation", onDeviceOrientation);
-            setShowGyroscopeButton(false);
-          }
-        })
-        .catch(console.error);
+  const requestGyroscopePermission = () => {
+    console.log(giroScopeActive);
+    if (giroScopeActive) {
+      window.removeEventListener("deviceorientation", onDeviceOrientation);
+      setgiroScopeActive(false);
+      setIsOpen(true);
     } else {
-      window.addEventListener("deviceorientation", onDeviceOrientation);
+      setIsOpen(true);
+      setgiroScopeActive(true);
+      if (
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof (DeviceOrientationEvent as any).requestPermission === "function"
+      ) {
+        (DeviceOrientationEvent as any)
+          .requestPermission()
+          .then((permissionState: string) => {
+            if (permissionState === "granted") {
+              window.addEventListener("deviceorientation", onDeviceOrientation);
+              setIsOpen(true);
+              setgiroScopeActive(true);
+            }
+          })
+          .catch(console.error);
+      } else {
+        window.addEventListener("deviceorientation", onDeviceOrientation);
+      }
     }
-  }, [onDeviceOrientation]);
+  };
 
   useEffect(() => {
+    places.map(() => {
+      console.log("cargando...");
+    });
     if (canvasRef.current) {
       sceneRef.current = new THREE.Scene();
       cameraRef.current = new THREE.PerspectiveCamera(
@@ -265,24 +282,60 @@ const View360 = ({ places }: { places: Place[] }) => {
         height={100}
         style={{ position: "absolute", top: 10, left: 10 }}
       />
+
+      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog.Trigger>
+            <button
+            className="bg-white rounded-md"
+             style={{ position: "absolute", top: 100, left: 10 }}
+            >
+                <Menu></Menu>
+            </button>
+        </Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed" />
+          <Dialog.Content
+            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-3/4 lg:w-1/4 h-1/4 rounded-3xl bg-white p-4 z-50 focus:outline-none shadow-lg`}
+          >
+            <Dialog.DialogTitle></Dialog.DialogTitle>
+            <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
+
+            {giroScopeActive ? <></> : <></>}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
       {showGyroscopeButton && (
         <button
-          onClick={requestGyroscopePermission}
+          onClick={() => requestGyroscopePermission()}
           style={{
             position: "absolute",
             top: "20px",
             right: "20px",
             padding: "10px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
+
             cursor: "pointer",
           }}
+          className={`rounded-full ${
+            giroScopeActive ? "bg-orangejw text-white" : "bg-white text-greenjw"
+          }`}
         >
-          Activar giroscopio
+          <Compass />
         </button>
       )}
+      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content
+            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-3/4 lg:w-1/4 h-1/4 rounded-3xl bg-white p-4 z-50 focus:outline-none shadow-lg`}
+          >
+            <Dialog.DialogTitle></Dialog.DialogTitle>
+            <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
+
+            {giroScopeActive ? <></> : <></>}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 };

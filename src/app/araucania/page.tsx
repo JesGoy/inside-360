@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import View360 from "../components/view-360";
 import { Place } from "../interfaces/Place";
 
