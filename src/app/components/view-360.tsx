@@ -312,6 +312,7 @@ const View360 = ({ places }: { places: Place[] }) => {
       />
       {isLoading && (
         <div
+          className="z-50"
           style={{
             position: "absolute",
             top: "50%",
