@@ -6,7 +6,9 @@ import { Place } from "../interfaces/Place";
 import { Compass, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import LoadAnimation from "./load-animation";
+import dynamic from "next/dynamic";
+
+const LoadAnimation = dynamic(() => import('@/app/components/load-animation'), { ssr: false });
 
 const View360 = ({ places }: { places: Place[] }) => {
   const [giroScopeActive, setgiroScopeActive] = useState(false);
