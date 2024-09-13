@@ -3,8 +3,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import Image from "next/image";
 import { Place } from "../interfaces/Place";
-import { Compass, Menu } from "lucide-react";
+import { Compass, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const View360 = ({ places }: { places: Place[] }) => {
   const [giroScopeActive, setgiroScopeActive] = useState(false);
@@ -24,6 +25,8 @@ const View360 = ({ places }: { places: Place[] }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showGyroscopeButton, setShowGyroscopeButton] = useState(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const [currentPlace, setCurrentPlace] = useState<Place>(places[0]);
 
   const onWindowResize = useCallback(() => {
     if (cameraRef.current && rendererRef.current) {
@@ -177,9 +180,7 @@ const View360 = ({ places }: { places: Place[] }) => {
   };
 
   useEffect(() => {
-    places.map(() => {
-      console.log("cargando...");
-    });
+    if (!currentPlace) return;
     if (canvasRef.current) {
       sceneRef.current = new THREE.Scene();
       cameraRef.current = new THREE.PerspectiveCamera(
@@ -207,9 +208,45 @@ const View360 = ({ places }: { places: Place[] }) => {
 
       const loader = new THREE.TextureLoader();
       loader.load(
-        "/images/outdoor_umbrellas_4k.jpg",
+        currentPlace?.image360,
         (texture) => {
-          const material = new THREE.MeshBasicMaterial({ map: texture });
+          const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `;
+
+          const fragmentShader = `
+            uniform sampler2D tDiffuse;
+            uniform float saturation;
+            uniform float exposure;
+            varying vec2 vUv;
+            
+            void main() {
+              vec4 texel = texture2D(tDiffuse, vUv);
+              
+              // Aumentamos la saturación
+              float luminance = dot(texel.rgb, vec3(0.299, 0.587, 0.114));
+              vec3 saturatedColor = mix(vec3(luminance), texel.rgb, saturation);
+              
+              // Ajustamos la exposición
+              vec3 finalColor = saturatedColor * exposure;
+              
+              gl_FragColor = vec4(finalColor, texel.a);
+            }
+          `;
+
+          const material = new THREE.ShaderMaterial({
+            uniforms: {
+              tDiffuse: { value: texture },
+              saturation: { value: 1.2 },
+              exposure: { value: 0.9 },
+            },
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+          });
           const mesh = new THREE.Mesh(geometry, material);
           sceneRef.current?.add(mesh);
           setIsLoading(false);
@@ -255,10 +292,16 @@ const View360 = ({ places }: { places: Place[] }) => {
     onDeviceOrientation,
     onTouchStart,
     onTouchMove,
+    currentPlace,
   ]);
 
+  function changePlace(place: Place) {
+    setIsOpenMenu(false);
+    setCurrentPlace(place);
+  }
+
   return (
-    <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
+    <>
       <canvas
         ref={canvasRef}
         style={{ width: "100%", height: "100%", touchAction: "none" }}
@@ -282,26 +325,56 @@ const View360 = ({ places }: { places: Place[] }) => {
         height={100}
         style={{ position: "absolute", top: 10, left: 10 }}
       />
-
-      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-        <Dialog.Trigger>
-            <button
-            className="bg-white rounded-md"
-             style={{ position: "absolute", top: 100, left: 10 }}
-            >
-                <Menu></Menu>
-            </button>
-        </Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed" />
-          <Dialog.Content
-            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-3/4 lg:w-1/4 h-1/4 rounded-3xl bg-white p-4 z-50 focus:outline-none shadow-lg`}
+      <label className="absolute bottom-[10%] bg-white text-xl p-3 px-5 text-center rounded-r-full">
+        <b>{currentPlace.name}</b>
+      </label>
+      <Dialog.Root open={isOpenMenu} onOpenChange={setIsOpenMenu} modal={false}>
+        {!isOpenMenu && (
+          <Dialog.Trigger
+            className="bg-white rounded-r-full text-greenjw min-w-[70px] py-3 flex justify-end pr-5"
+            style={{ position: "absolute", top: 100, left: 0 }}
           >
-            <Dialog.DialogTitle></Dialog.DialogTitle>
-            <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
+            <Menu />
+          </Dialog.Trigger>
+        )}
 
-            {giroScopeActive ? <></> : <></>}
-          </Dialog.Content>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50" />
+          <div className="fixed inset-0 flex items-center">
+            <Dialog.Content
+              className={`h-3/4 w-1/2 p-2 rounded-r-xl bg-white shadow-lg
+                data-[state=open]:animate-slideInFromLeft
+                 data-[state=closed]:animate-slideOutToLeft`}
+            >
+              <Dialog.Close asChild className="right-4 absolute mt-2">
+                <X className="text-greenjw " />
+              </Dialog.Close>
+              <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
+              <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
+              <ScrollArea.Root className="h-[60vh] rounded">
+                <ScrollArea.Viewport className="flex flex-col mt-10  gap-4">
+                  {places.map((p, key) => (
+                    <div
+                      key={key}
+                      className="flex flex-col justify-center items-center shadow-lg rounded-lg"
+                      onClick={() => {
+                        changePlace(p);
+                      }}
+                    >
+                      <img src={p.imageMin} className="rounded-t-lg"></img>
+                      <p>{p.name}</p>
+                    </div>
+                  ))}
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar
+                  className="flex select-none touch-none p-0.5 transition-colors duration-[160ms] ease-out hover:bg-gray-400"
+                  orientation="vertical"
+                >
+                  <ScrollArea.Thumb className="flex-1 rounded bg-gray-500" />
+                </ScrollArea.Scrollbar>
+              </ScrollArea.Root>
+            </Dialog.Content>
+          </div>
         </Dialog.Portal>
       </Dialog.Root>
 
@@ -332,11 +405,34 @@ const View360 = ({ places }: { places: Place[] }) => {
             <Dialog.DialogTitle></Dialog.DialogTitle>
             <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
 
-            {giroScopeActive ? <></> : <></>}
+            {giroScopeActive ? (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <img
+                  src="/images/icon-giroscopeactive-popup.svg"
+                  alt="Giroscope"
+                />
+
+                <p className="text-center">
+                  Mueve el dispositivo para ver la panorámica.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <img
+                  src="/images/icon-giroscopeinactive-popup.svg"
+                  alt="Giroscope"
+                  className=""
+                />
+
+                <p className="text-center">
+                  Desliza tu dedo por la pantalla para ver la panorámica.
+                </p>
+              </div>
+            )}
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-    </div>
+    </>
   );
 };
 
