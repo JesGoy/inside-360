@@ -24,7 +24,7 @@ const View360 = ({ places }: { places: Place[] }) => {
   const phiRef = useRef(0);
   const thetaRef = useRef(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [showGyroscopeButton, setShowGyroscopeButton] = useState(false);
+  
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [currentPlace, setCurrentPlace] = useState<Place>(places[0]);
@@ -270,7 +270,7 @@ const View360 = ({ places }: { places: Place[] }) => {
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof (DeviceOrientationEvent as any).requestPermission === "function"
       ) {
-        setShowGyroscopeButton(true);
+       
         if (giroScopeActive) {
           window.addEventListener("deviceorientation", onDeviceOrientation);
         }
