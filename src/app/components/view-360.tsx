@@ -6,6 +6,7 @@ import { Place } from "../interfaces/Place";
 import { Compass, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import LoadAnimation from "./load-animation";
 
 const View360 = ({ places }: { places: Place[] }) => {
   const [giroScopeActive, setgiroScopeActive] = useState(false);
@@ -57,6 +58,7 @@ const View360 = ({ places }: { places: Place[] }) => {
       rendererRef.current.render(sceneRef.current, cameraRef.current);
     }
     requestAnimationFrame(animate);
+    setIsLoading(false);
   }, [updateCameraRotation]);
 
   const onPointerDown = useCallback((event: PointerEvent) => {
@@ -151,7 +153,6 @@ const View360 = ({ places }: { places: Place[] }) => {
   }, []);
 
   const requestGyroscopePermission = () => {
-    console.log(giroScopeActive);
     if (giroScopeActive) {
       window.removeEventListener("deviceorientation", onDeviceOrientation);
       setgiroScopeActive(false);
@@ -249,7 +250,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           });
           const mesh = new THREE.Mesh(geometry, material);
           sceneRef.current?.add(mesh);
-          setIsLoading(false);
+
           animate();
         },
         undefined,
@@ -270,6 +271,9 @@ const View360 = ({ places }: { places: Place[] }) => {
         typeof (DeviceOrientationEvent as any).requestPermission === "function"
       ) {
         setShowGyroscopeButton(true);
+        if (giroScopeActive) {
+          window.addEventListener("deviceorientation", onDeviceOrientation);
+        }
       } else {
         window.addEventListener("deviceorientation", onDeviceOrientation);
       }
@@ -315,7 +319,7 @@ const View360 = ({ places }: { places: Place[] }) => {
             transform: "translate(-50%, -50%)",
           }}
         >
-          Cargando...
+          <LoadAnimation></LoadAnimation>
         </div>
       )}
       <Image
@@ -352,11 +356,11 @@ const View360 = ({ places }: { places: Place[] }) => {
               <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
               <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
               <ScrollArea.Root className="h-[60vh] rounded">
-                <ScrollArea.Viewport className="flex flex-col mt-10  gap-4">
+                <ScrollArea.Viewport className="flex flex-col mt-10 gap-4">
                   {places.map((p, key) => (
                     <div
                       key={key}
-                      className="flex flex-col justify-center items-center shadow-lg rounded-lg"
+                      className="flex flex-col justify-center items-center shadow-lg rounded-lg mb-6"
                       onClick={() => {
                         changePlace(p);
                       }}
@@ -378,24 +382,23 @@ const View360 = ({ places }: { places: Place[] }) => {
         </Dialog.Portal>
       </Dialog.Root>
 
-      {showGyroscopeButton && (
-        <button
-          onClick={() => requestGyroscopePermission()}
-          style={{
-            position: "absolute",
-            top: "20px",
-            right: "20px",
-            padding: "10px",
+      <button
+        onClick={() => requestGyroscopePermission()}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "10px",
 
-            cursor: "pointer",
-          }}
-          className={`rounded-full ${
-            giroScopeActive ? "bg-orangejw text-white" : "bg-white text-greenjw"
-          }`}
-        >
-          <Compass />
-        </button>
-      )}
+          cursor: "pointer",
+        }}
+        className={`rounded-full ${
+          giroScopeActive ? "bg-orangejw text-white" : "bg-white text-greenjw"
+        }`}
+      >
+        <Compass />
+      </button>
+
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
