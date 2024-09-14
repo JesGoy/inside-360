@@ -28,11 +28,7 @@ export default function RootLayout({
         <link rel="icon" type="image/svg+xml" href="images/favicon.svg"></link>
       </head>
 
-      <body
-        className="overflow-hidden bg-white"
-      >
-        {children}
-      </body>
+      {children}
     </html>
   );
 }
