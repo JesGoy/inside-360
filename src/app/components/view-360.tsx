@@ -300,6 +300,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           window.addEventListener("deviceorientation", onDeviceOrientation);
         }
       } else {
+        setgiroScopeActive(true)
         window.addEventListener("deviceorientation", onDeviceOrientation);
       }
     }
