@@ -3,15 +3,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import Image from "next/image";
 import { Place } from "../interfaces/Place";
-import { Compass, Menu, X } from "lucide-react";
+import { Compass, Maximize2, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import dynamic from "next/dynamic";
 
-const LoadAnimation = dynamic(() => import('@/app/components/load-animation'), { ssr: false });
+const LoadAnimation = dynamic(() => import("@/app/components/load-animation"), {
+  ssr: false,
+});
 
 const View360 = ({ places }: { places: Place[] }) => {
-  const [giroScopeActive, setgiroScopeActive] = useState(false);
+  const elementRef = useRef(null);
+  const [giroScopeActive, setgiroScopeActive] = useState<boolean>(false);
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -26,10 +30,34 @@ const View360 = ({ places }: { places: Place[] }) => {
   const phiRef = useRef(0);
   const thetaRef = useRef(0);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [currentPlace, setCurrentPlace] = useState<Place>(places[0]);
+
+  const toggleFullscreen = () => {
+    const element = elementRef.current || document.documentElement; // Elemento a poner en fullscreen (puede ser el propio documento)
+    if (!document.fullscreenElement) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+        setIsFullScreen(true);
+      } else if (element.mozRequestFullScreen) { // Firefox
+        element.mozRequestFullScreen();
+        setIsFullScreen(true);
+      } else if (element.webkitRequestFullscreen) { // Safari
+        element.webkitRequestFullscreen();
+        setIsFullScreen(true);
+      } else if (element.msRequestFullscreen) { // Internet Explorer/Edge
+        element.msRequestFullscreen();
+        setIsFullScreen(true);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        setIsFullScreen(false);
+      }
+    }
+  };
 
   const onWindowResize = useCallback(() => {
     if (cameraRef.current && rendererRef.current) {
@@ -272,7 +300,6 @@ const View360 = ({ places }: { places: Place[] }) => {
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof (DeviceOrientationEvent as any).requestPermission === "function"
       ) {
-       
         if (giroScopeActive) {
           window.addEventListener("deviceorientation", onDeviceOrientation);
         }
@@ -307,7 +334,7 @@ const View360 = ({ places }: { places: Place[] }) => {
   }
 
   return (
-    <>
+    <div ref={elementRef}>
       <canvas
         ref={canvasRef}
         style={{ width: "100%", height: "100%", touchAction: "none" }}
@@ -358,8 +385,8 @@ const View360 = ({ places }: { places: Place[] }) => {
               </Dialog.Close>
               <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
               <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
-              <ScrollArea.Root className="h-[60vh] rounded">
-                <ScrollArea.Viewport className="flex flex-col mt-10 gap-4">
+              <ScrollArea.Root className="h-[70vh] rounded">
+                <ScrollArea.Viewport className="h-full pb-5">
                   {places.map((p, key) => (
                     <div
                       key={key}
@@ -401,6 +428,22 @@ const View360 = ({ places }: { places: Place[] }) => {
       >
         <Compass />
       </button>
+      <button
+        onClick={() => toggleFullscreen()}
+        style={{
+          position: "absolute",
+          top: "80px",
+          right: "20px",
+          padding: "10px",
+
+          cursor: "pointer",
+        }}
+        className={`rounded-full ${
+          isFullScreen ? "bg-orangejw text-white" : "bg-white text-greenjw"
+        }`}
+      >
+        <Maximize2 />
+      </button>
 
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Portal>
@@ -438,7 +481,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-    </>
+    </div>
   );
 };
 

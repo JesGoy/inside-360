@@ -2,7 +2,7 @@
 import { useState } from "react";
 import View360 from "../components/view-360";
 import { Place } from "../interfaces/Place";
-import WelcomePage from "../welcomepage/page";
+import WelcomePage from "../welcomepage/welcompage";
 
 const places: Place[] = [
   {
@@ -20,12 +20,12 @@ const places: Place[] = [
 ];
 
 const PuntaArenasPage = () => {
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState<boolean>(false);
 
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart}></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace={"Punta Arenas"}></WelcomePage>
   );
 };
 

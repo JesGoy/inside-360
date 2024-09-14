@@ -1,6 +1,11 @@
 import * as React from "react"
+import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
 
-import { cn } from "@/app/lib/utils"
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 
 const Card = React.forwardRef<
   HTMLDivElement,

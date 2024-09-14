@@ -2,17 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 #body {
   margin: 0;
@@ -27,7 +17,7 @@ canvas {
   top: 10px;
   left: 10px;
   color: white;
-  background: rgba(0, 0, 0, 0.5);
+ 
   padding: 10px;
   font-family: Arial, sans-serif;
 }

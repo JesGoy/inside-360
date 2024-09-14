@@ -29,7 +29,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className="overflow-hidden"
+        className="overflow-hidden bg-white"
       >
         {children}
       </body>
