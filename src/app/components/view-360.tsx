@@ -31,7 +31,9 @@ const View360 = ({ places }: { places: Place[] }) => {
   const thetaRef = useRef(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [quaternion, setQuaternion] = useState<THREE.Quaternion>();
+
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [currentPlace, setCurrentPlace] = useState<Place>(places[0]);
 
@@ -155,20 +157,18 @@ const View360 = ({ places }: { places: Place[] }) => {
         ? THREE.MathUtils.degToRad(window.orientation as number)
         : 0;
 
-      const quaternion = new THREE.Quaternion();
       const euler = new THREE.Euler();
       const q0 = new THREE.Quaternion();
       const q1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
 
       euler.set(beta, alpha, -gamma, "YXZ");
-      quaternion.setFromEuler(euler);
-      quaternion.multiply(q1);
-      quaternion.multiply(
-        q0.setFromAxisAngle(new THREE.Vector3(0, 0, 1), -orient)
-      );
-
+      const quar = new THREE.Quaternion();
+      quar.setFromEuler(euler);
+      quar.multiply(q1);
+      quar.multiply(q0.setFromAxisAngle(new THREE.Vector3(0, 0, 1), -orient));
+      setQuaternion(quar);
       if (cameraRef.current) {
-        cameraRef.current.quaternion.copy(quaternion);
+        cameraRef.current.quaternion.copy(quar);
       }
     }
   }, []);
@@ -212,6 +212,9 @@ const View360 = ({ places }: { places: Place[] }) => {
         1100
       );
       cameraRef.current.position.set(0, 0, 0);
+      if (quaternion) {
+        cameraRef.current.quaternion.copy(quaternion);
+      }
 
       rendererRef.current = new THREE.WebGLRenderer({
         canvas: canvasRef.current,
@@ -326,158 +329,152 @@ const View360 = ({ places }: { places: Place[] }) => {
 
   return (
     <body ref={elementRef} className="overflow-hidden bg-white">
-      
-        <canvas
-          ref={canvasRef}
-          style={{ width: "100%", height: "100%", touchAction: "none" }}
-        />
-        {isLoading && (
-          <div
-            className="z-50"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <LoadAnimation></LoadAnimation>
-          </div>
-        )}
-        <Image
-          src="/images/logo.svg"
-          alt="Logo"
-          width={100}
-          height={100}
-          style={{ position: "absolute", top: 10, left: 10 }}
-        />
-        <label className="absolute bottom-[10%] bg-white text-xl p-3 px-5 text-center rounded-r-full">
-          <b>{currentPlace.name}</b>
-        </label>
-        <Dialog.Root
-          open={isOpenMenu}
-          onOpenChange={setIsOpenMenu}
-          modal={false}
+      <canvas
+        ref={canvasRef}
+        style={{ width: "100%", height: "100%", touchAction: "none" }}
+      />
+      {isLoading && (
+        <div
+          className="z-50"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
         >
-          {!isOpenMenu && (
-            <Dialog.Trigger
-              className="bg-white rounded-r-full text-greenjw min-w-[70px] py-3 flex justify-end pr-5"
-              style={{ position: "absolute", top: 100, left: 0 }}
-            >
-              <Menu />
-            </Dialog.Trigger>
-          )}
+          <LoadAnimation></LoadAnimation>
+        </div>
+      )}
+      <Image
+        src="/images/logo.svg"
+        alt="Logo"
+        width={100}
+        height={100}
+        style={{ position: "absolute", top: 10, left: 10 }}
+      />
+      <label className="absolute bottom-[10%] bg-white text-xl p-3 px-5 text-center rounded-r-full">
+        <b>{currentPlace.name}</b>
+      </label>
+      <Dialog.Root open={isOpenMenu} onOpenChange={setIsOpenMenu} modal={false}>
+        {!isOpenMenu && (
+          <Dialog.Trigger
+            className="bg-white rounded-r-full text-greenjw min-w-[70px] py-3 flex justify-end pr-5"
+            style={{ position: "absolute", top: 100, left: 0 }}
+          >
+            <Menu />
+          </Dialog.Trigger>
+        )}
 
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
-            <div className="fixed inset-0 flex items-center">
-              <Dialog.Content
-                className={`z-50 h-3/4 w-1/2 p-2 rounded-r-xl bg-white shadow-lg
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
+          <div className="fixed inset-0 flex items-center">
+            <Dialog.Content
+              className={`z-50 h-3/4 w-1/2 p-2 rounded-r-xl bg-white shadow-lg
                 data-[state=open]:animate-slideInFromLeft
                  data-[state=closed]:animate-slideOutToLeft`}
-              >
-                <Dialog.Close asChild className="right-4 absolute mt-2">
-                  <X className="text-greenjw " />
-                </Dialog.Close>
-                <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
-                <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
-                <ScrollArea.Root className="h-[70vh] rounded">
-                  <ScrollArea.Viewport className="h-full pb-5">
-                    {places.map((p, key) => (
-                      <div
-                        key={key}
-                        className="flex flex-col justify-center items-center shadow-lg rounded-lg mb-6"
-                        onClick={() => {
-                          changePlace(p);
-                        }}
-                      >
-                        <img src={p.imageMin} className="rounded-t-lg"></img>
-                        <p>{p.name}</p>
-                      </div>
-                    ))}
-                  </ScrollArea.Viewport>
-                  <ScrollArea.Scrollbar
-                    className="flex select-none touch-none p-0.5 transition-colors duration-[160ms] ease-out hover:bg-gray-400"
-                    orientation="vertical"
-                  >
-                    <ScrollArea.Thumb className="flex-1 rounded bg-gray-500" />
-                  </ScrollArea.Scrollbar>
-                </ScrollArea.Root>
-              </Dialog.Content>
-            </div>
-          </Dialog.Portal>
-        </Dialog.Root>
-
-        <button
-          onClick={() => requestGyroscopePermission()}
-          style={{
-            position: "absolute",
-            top: "20px",
-            right: "20px",
-            padding: "10px",
-
-            cursor: "pointer",
-          }}
-          className={`rounded-full ${
-            giroScopeActive ? "bg-orangejw text-white" : "bg-white text-greenjw"
-          }`}
-        >
-          <Compass />
-        </button>
-        <button
-          onClick={() => toggleFullscreen()}
-          style={{
-            position: "absolute",
-            top: "80px",
-            right: "20px",
-            padding: "10px",
-
-            cursor: "pointer",
-          }}
-          className={`rounded-full ${
-            isFullScreen ? "bg-orangejw text-white" : "bg-white text-greenjw"
-          }`}
-        >
-          <Maximize2 />
-        </button>
-
-        <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-            <Dialog.Content
-              className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-3/4 lg:w-1/4 h-1/4 rounded-3xl bg-white p-4 z-50 focus:outline-none shadow-lg`}
             >
-              <Dialog.DialogTitle></Dialog.DialogTitle>
-              <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
-
-              {giroScopeActive ? (
-                <div className="flex flex-col justify-center items-center gap-4">
-                  <img
-                    src="/images/icon-giroscopeactive-popup.svg"
-                    alt="Giroscope"
-                  />
-
-                  <p className="text-center">
-                    Mueve el dispositivo para ver la panorámica.
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col justify-center items-center gap-4">
-                  <img
-                    src="/images/icon-giroscopeinactive-popup.svg"
-                    alt="Giroscope"
-                    className=""
-                  />
-
-                  <p className="text-center">
-                    Desliza tu dedo por la pantalla para ver la panorámica.
-                  </p>
-                </div>
-              )}
+              <Dialog.Close asChild className="right-4 absolute mt-2">
+                <X className="text-greenjw " />
+              </Dialog.Close>
+              <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
+              <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
+              <ScrollArea.Root className="h-[70vh] rounded">
+                <ScrollArea.Viewport className="h-full pb-5">
+                  {places.map((p, key) => (
+                    <div
+                      key={key}
+                      className="flex flex-col justify-center items-center shadow-lg rounded-lg mb-6"
+                      onClick={() => {
+                        changePlace(p);
+                      }}
+                    >
+                      <img src={p.imageMin} className="rounded-t-lg"></img>
+                      <p>{p.name}</p>
+                    </div>
+                  ))}
+                </ScrollArea.Viewport>
+                <ScrollArea.Scrollbar
+                  className="flex select-none touch-none p-0.5 transition-colors duration-[160ms] ease-out hover:bg-gray-400"
+                  orientation="vertical"
+                >
+                  <ScrollArea.Thumb className="flex-1 rounded bg-gray-500" />
+                </ScrollArea.Scrollbar>
+              </ScrollArea.Root>
             </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
-     
+          </div>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      <button
+        onClick={() => requestGyroscopePermission()}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "10px",
+
+          cursor: "pointer",
+        }}
+        className={`rounded-full ${
+          giroScopeActive ? "bg-orangejw text-white" : "bg-white text-greenjw"
+        }`}
+      >
+        <Compass />
+      </button>
+      <button
+        onClick={() => toggleFullscreen()}
+        style={{
+          position: "absolute",
+          top: "80px",
+          right: "20px",
+          padding: "10px",
+
+          cursor: "pointer",
+        }}
+        className={`rounded-full ${
+          isFullScreen ? "bg-orangejw text-white" : "bg-white text-greenjw"
+        }`}
+      >
+        <Maximize2 />
+      </button>
+
+      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content
+            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-2/3 h-[200px] max-w-[400px]  flex items-center justify-center rounded-3xl bg-white p-1 z-50 focus:outline-none shadow-lg`}
+          >
+            <Dialog.DialogTitle></Dialog.DialogTitle>
+            <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
+
+            {giroScopeActive ? (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <img
+                  src="/images/icon-giroscopeactive-popup.svg"
+                  alt="Giroscope"
+                />
+
+                <p className="text-center">
+                  Mueve el dispositivo para ver la panorámica.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <img
+                  src="/images/icon-giroscopeinactive-popup.svg"
+                  alt="Giroscope"
+                 
+                />
+
+                <p className="text-center">
+                  Desliza tu dedo por la pantalla para ver la panorámica.
+                </p>
+              </div>
+            )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </body>
   );
 };

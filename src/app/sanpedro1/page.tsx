@@ -9,25 +9,37 @@ const places: Place[] = [
     description: "Descripcion del lugar",
     image360: "/images/valle-de-la-luna/ValleDeLaLuna_70_72_360.webp",
     imageMin: "/images/valle-de-la-luna/ValleDeLaLuna_70_72_m.webp",
-    name: "Valle de la Luna 1",
+    name: "Mina de sal",
   },
   {
     description: "Descripcion del lugar",
     image360: "/images/valle-de-la-luna/ValleDeLaLuna_96_96_360.webp",
     imageMin:"/images/valle-de-la-luna/ValleDeLaLuna_94_96_m.webp",
-    name: "Valle de la Luna 2",
+    name: "Camino a la mina de sal",
   },
   {
     description: "Descripcion del lugar",
     image360: "/images/valle-de-la-luna/ValleDeLaLuna_106_108_360.webp",
     imageMin:"/images/valle-de-la-luna/ValleDeLaLuna_106_108_m.webp",
-    name: "Valle de la Luna 3",
+    name: "Duna mayor",
   },
   {
     description: "Descripcion del lugar",
     image360: "/images/valle-de-la-luna/ValleDeLaLuna_124_126_360.webp",
     imageMin:"/images/valle-de-la-luna/ValleDeLaLuna_124_126_m.webp",
-    name: "Valle de la Luna 4",
+    name: "Vista a cordillera de la sal",
+  },
+  {
+    description: "Descripcion del lugar",
+    image360: "/images/pukara-de-quitor/ValleDeLaLuna_Pukara_163_165_360.webp",
+    imageMin: "/images/pukara-de-quitor/ValleDeLaLuna_Pukara_163_165_m.webp",
+    name: "Mirador a la cordillera de la sal",
+  },
+  {
+    description: "Descripcion del lugar",
+    image360: "/images/pukara-de-quitor/ValleDeLaLuna_Pukara_175_177_360.webp",
+    imageMin:"/images/pukara-de-quitor/ValleDeLaLuna_Pukara_175_177_m.webp",
+    name: "Mirador a la cordillera de la sal",
   },
 
 ];
@@ -38,7 +50,7 @@ const ValleDeLaLunaPage = () => {
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart} namePlace={"Valle de la Luna"}></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace={"San Pedro de Atacama  Valle de la Luna"} descriptionPlace="Visita virtualmente los lugares más turísticos de nuestro país."></WelcomePage>
   );
 };
 

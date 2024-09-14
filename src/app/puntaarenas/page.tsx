@@ -15,7 +15,7 @@ const places: Place[] = [
     description: "Descripcion del lugar",
     image360: "/images/punta-arenas/HitoMitadDeChile_3_360.webp",
     imageMin:"/images/punta-arenas/HitoMitadDeChile_3_m.webp",
-    name: "Hito mitad de Chile",
+    name: "Hito la mitad de Chile",
   },
 ];
 
@@ -25,7 +25,7 @@ const PuntaArenasPage = () => {
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart} namePlace={"Punta Arenas"}></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace={"Punta Arenas"} descriptionPlace="Visita virtualmente los lugares más turísticos de nuestro país."></WelcomePage>
   );
 };
 

@@ -37,7 +37,7 @@ const DesiertoFloridoPage = () => {
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart} namePlace="Desierto florido"></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace="Desierto florido" descriptionPlace="Visita virtualmente los lugares más turísticos de nuestro país."></WelcomePage>
   );
 };
 
