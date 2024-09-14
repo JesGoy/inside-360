@@ -41,15 +41,6 @@ const View360 = ({ places }: { places: Place[] }) => {
       if (element.requestFullscreen) {
         element.requestFullscreen();
         setIsFullScreen(true);
-      } else if (element.mozRequestFullScreen) { // Firefox
-        element.mozRequestFullScreen();
-        setIsFullScreen(true);
-      } else if (element.webkitRequestFullscreen) { // Safari
-        element.webkitRequestFullscreen();
-        setIsFullScreen(true);
-      } else if (element.msRequestFullscreen) { // Internet Explorer/Edge
-        element.msRequestFullscreen();
-        setIsFullScreen(true);
       }
     } else {
       if (document.exitFullscreen) {
