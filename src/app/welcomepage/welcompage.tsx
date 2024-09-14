@@ -20,7 +20,7 @@ export default function WelcomePage({
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
         <div className="flex flex-col items-center space-y-4">
           <Image
-            src="/images/logo-asamblea-full.svg"
+            src="/aecl24/tour360/images/logo-asamblea-full.svg"
             alt="Chile 2024 Logo"
             className="w-50"
             width="193"

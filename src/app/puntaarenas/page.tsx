@@ -7,14 +7,14 @@ import WelcomePage from "../welcomepage/welcompage";
 const places: Place[] = [
   {
     description: "Descripcion del lugar",
-    image360: "/images/punta-arenas/FaroSanIsidro_360.webp",
-    imageMin: "/images/punta-arenas/FaroSanIsidro_m.webp",
+    image360: "/aecl24/tour360/images/punta-arenas/FaroSanIsidro_360.webp",
+    imageMin: "/aecl24/tour360/images/punta-arenas/FaroSanIsidro_m.webp",
     name: "Faro San Isidro",
   },
   {
     description: "Descripcion del lugar",
-    image360: "/images/punta-arenas/HitoMitadDeChile_3_360.webp",
-    imageMin:"/images/punta-arenas/HitoMitadDeChile_3_m.webp",
+    image360: "/aecl24/tour360/images/punta-arenas/HitoMitadDeChile_3_360.webp",
+    imageMin:"/aecl24/tour360/images/punta-arenas/HitoMitadDeChile_3_m.webp",
     name: "Hito la mitad de Chile",
   },
 ];
