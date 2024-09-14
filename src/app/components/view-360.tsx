@@ -344,6 +344,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           }}
         >
           <LoadAnimation></LoadAnimation>
+          <p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38"><b>Cargando...</b></p>
         </div>
       )}
       <Image
