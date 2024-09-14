@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function WelcomePage({
   setStart,
   namePlace,
-  descriptionPlace
+  descriptionPlace,
 }: {
   setStart: any;
   namePlace: string;
@@ -29,10 +29,12 @@ export default function WelcomePage({
           />
         </div>
         <div className="w-48">
-          <p className="text-lg text-[#2F2D2C;]">Tour Virtual 360º  <br/> {namePlace}</p>
-          <p className="text-xs text-[#8E8D8A;]">
-            {descriptionPlace}
+          <p className="text-lg text-[#2F2D2C;]">
+            <b>Tour Virtual 360º </b>
+            <br /> {namePlace}
           </p>
+
+          <p className="text-sm text-[#8E8D8A;]">{descriptionPlace}</p>
         </div>
         <div className="mt-28">
           <button

@@ -15,7 +15,7 @@ const places: Place[] = [
   {
     description: "Descripcion del lugar",
     image360: "/aecl24/tour360/images/pukara-de-quitor/ValleDeLaLuna_Pukara_199_201_360.webp",
-    imageMin:"/aecl24/tour360/images/pukara-de-quitor/ValleDeLaLuna_Pukara_199_201__m.webp",
+    imageMin:"/aecl24/tour360/images/pukara-de-quitor/ValleDeLaLuna_Pukara_199_201_m.webp",
     name: "Pucará de Quitor",
   },
   {
