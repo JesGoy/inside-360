@@ -371,7 +371,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
           <div className="fixed inset-0 flex items-center">
             <Dialog.Content
-              className={`z-50 h-3/4 w-1/2 p-2 rounded-r-xl bg-white shadow-lg
+              className={`z-50 h-3/4 w-1/2 p-2 pb-5 rounded-r-xl bg-white shadow-lg
                 data-[state=open]:animate-slideInFromLeft
                  data-[state=closed]:animate-slideOutToLeft`}
             >
@@ -380,7 +380,7 @@ const View360 = ({ places }: { places: Place[] }) => {
               </Dialog.Close>
               <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
               <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
-              <ScrollArea.Root className="h-[70vh] rounded">
+              <ScrollArea.Root className="h-full rounded pt-10">
                 <ScrollArea.Viewport className="h-full pb-5">
                   {places.map((p, key) => (
                     <div

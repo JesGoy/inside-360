@@ -38,15 +38,15 @@ const places: Place[] = [
   },
   {
     description: "Descripcion del lugar",
-    image360: "/images/isla-de-pascua/IslaDePascua_62_360.webp",
-    imageMin: "/images/isla-de-pascua/IslaDePascua_62_m.webp",
+    image360: "/images/isla-de-pascua/IslaDePascua_062_360.webp",
+    imageMin: "/images/isla-de-pascua/IslaDePascua_062_m.webp",
     name: "Ahu Nau Nau",
   },
   {
     description: "Descripcion del lugar",
-    image360: "/images/isla-de-pascua/IslaDePascua_45_360.webp",
-    imageMin: "/images/isla-de-pascua/IslaDePascua_45_m.webp",
-    name: "Complejo ceremonial Taha",
+    image360: "/images/isla-de-pascua/IslaDePascua_045_360.webp",
+    imageMin: "/images/isla-de-pascua/IslaDePascua_045_m.webp",
+    name: "Complejo Taha",
   },
 ];
 
