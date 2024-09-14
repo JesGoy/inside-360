@@ -13,7 +13,7 @@ const places: Place[] = [
   },
   {
     description: "Descripcion del lugar",
-    image360: "/aecl24/tour360/images/valle-de-la-luna/ValleDeLaLuna_96_96_360.webp",
+    image360: "/aecl24/tour360/images/valle-de-la-luna/ValleDeLaLuna_94_96_360.webp",
     imageMin:"/aecl24/tour360/images/valle-de-la-luna/ValleDeLaLuna_94_96_m.webp",
     name: "Camino a la mina de sal",
   },
