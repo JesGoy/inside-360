@@ -348,7 +348,7 @@ const View360 = ({ places }: { places: Place[] }) => {
         </div>
       )}
       <Image
-        src="/images/logo.svg"
+        src="/aecl24/tour360/images/logo.svg"
         alt="Logo"
         width={100}
         height={100}
@@ -452,7 +452,7 @@ const View360 = ({ places }: { places: Place[] }) => {
             {giroScopeActive ? (
               <div className="flex flex-col justify-center items-center gap-4">
                 <img
-                  src="/images/icon-giroscopeactive-popup.svg"
+                  src="/aecl24/tour360/images/icon-giroscopeactive-popup.svg"
                   alt="Giroscope"
                 />
 
@@ -463,7 +463,7 @@ const View360 = ({ places }: { places: Place[] }) => {
             ) : (
               <div className="flex flex-col justify-center items-center gap-4">
                 <img
-                  src="/images/icon-giroscopeinactive-popup.svg"
+                  src="/aecl24/tour360/images/icon-giroscopeinactive-popup.svg"
                   alt="Giroscope"
                  
                 />
