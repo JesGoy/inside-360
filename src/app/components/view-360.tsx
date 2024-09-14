@@ -344,7 +344,9 @@ const View360 = ({ places }: { places: Place[] }) => {
           }}
         >
           <LoadAnimation></LoadAnimation>
-          <p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38"><b>Cargando...</b></p>
+          <p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38">
+            <b>Cargando...</b>
+          </p>
         </div>
       )}
       <Image
@@ -376,11 +378,11 @@ const View360 = ({ places }: { places: Place[] }) => {
                  data-[state=closed]:animate-slideOutToLeft`}
             >
               <div className="flex justify-end">
-              <Dialog.Close asChild className=" right-0 mt-2 text-center" >
-                <X className="text-greenjw " onClick={()=>setIsOpenMenu(false)}/>
-              </Dialog.Close>
+                <Dialog.Close asChild className=" right-0 mt-2 text-center">
+                  <X className="text-greenjw " />
+                </Dialog.Close>
               </div>
-           
+
               <Dialog.Title className="text-lg p-0 font-semibold"></Dialog.Title>
               <Dialog.Description className="p-0 text-sm text-gray-500"></Dialog.Description>
               <ScrollArea.Root className="h-[95%] rounded pt-2">
@@ -447,6 +449,7 @@ const View360 = ({ places }: { places: Place[] }) => {
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
           <Dialog.Content
+            onClick={() => setIsOpen(false)}
             className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-2/3 h-[200px] max-w-[400px]  flex items-center justify-center rounded-3xl bg-white p-1 z-50 focus:outline-none shadow-lg`}
           >
             <Dialog.DialogTitle></Dialog.DialogTitle>
@@ -468,7 +471,6 @@ const View360 = ({ places }: { places: Place[] }) => {
                 <img
                   src="/images/icon-giroscopeinactive-popup.svg"
                   alt="Giroscope"
-                 
                 />
 
                 <p className="text-center">
