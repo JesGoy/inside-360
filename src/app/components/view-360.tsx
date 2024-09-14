@@ -398,7 +398,7 @@ const View360 = ({ places }: { places: Place[] }) => {
                       }}
                     >
                       <img src={p.imageMin} className="rounded-t-lg"></img>
-                      <p>{p.name}</p>
+                      <p className="text-center">{p.name}</p>
                     </div>
                   ))}
                 </ScrollArea.Viewport>
