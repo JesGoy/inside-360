@@ -375,12 +375,15 @@ const View360 = ({ places }: { places: Place[] }) => {
                 data-[state=open]:animate-slideInFromLeft
                  data-[state=closed]:animate-slideOutToLeft`}
             >
-              <Dialog.Close asChild className="right-4 absolute mt-2">
-                <X className="text-greenjw " />
+              <div className="flex justify-end">
+              <Dialog.Close asChild className=" right-0 mt-2 text-center" >
+                <X className="text-greenjw " onClick={()=>setIsOpenMenu(false)}/>
               </Dialog.Close>
-              <Dialog.Title className="text-lg font-semibold"></Dialog.Title>
-              <Dialog.Description className="mt-2 text-sm text-gray-500"></Dialog.Description>
-              <ScrollArea.Root className="h-full rounded pt-10">
+              </div>
+           
+              <Dialog.Title className="text-lg p-0 font-semibold"></Dialog.Title>
+              <Dialog.Description className="p-0 text-sm text-gray-500"></Dialog.Description>
+              <ScrollArea.Root className="h-[95%] rounded pt-2">
                 <ScrollArea.Viewport className="h-full pb-5">
                   {places.map((p, key) => (
                     <div
