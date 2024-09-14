@@ -11,7 +11,9 @@ import dynamic from "next/dynamic";
 const LoadAnimation = dynamic(() => import("@/app/components/load-animation"), {
   ssr: false,
 });
-
+const isMobileDevice = (): boolean => {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+};
 const View360 = ({ places }: { places: Place[] }) => {
   const elementRef = useRef(null);
   const [giroScopeActive, setgiroScopeActive] = useState<boolean>(false);
@@ -428,22 +430,24 @@ const View360 = ({ places }: { places: Place[] }) => {
       >
         <Compass />
       </button>
-      <button
-        onClick={() => toggleFullscreen()}
-        style={{
-          position: "absolute",
-          top: "80px",
-          right: "20px",
-          padding: "10px",
+      {!isMobileDevice() && (
+        <button
+          onClick={() => toggleFullscreen()}
+          style={{
+            position: "absolute",
+            top: "80px",
+            right: "20px",
+            padding: "10px",
 
-          cursor: "pointer",
-        }}
-        className={`rounded-full ${
-          isFullScreen ? "bg-orangejw text-white" : "bg-white text-greenjw"
-        }`}
-      >
-        <Maximize2 />
-      </button>
+            cursor: "pointer",
+          }}
+          className={`rounded-full ${
+            isFullScreen ? "bg-orangejw text-white" : "bg-white text-greenjw"
+          }`}
+        >
+          <Maximize2 />
+        </button>
+      )}
 
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Portal>
