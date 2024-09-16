@@ -7,6 +7,7 @@ import { Compass, Maximize2, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import dynamic from "next/dynamic";
+import { FormattedMessage } from "react-intl";
 
 const LoadAnimation = dynamic(() => import("@/app/components/load-animation"), {
   ssr: false,
@@ -348,7 +349,7 @@ const View360 = ({ places }: { places: Place[] }) => {
         >
           <LoadAnimation></LoadAnimation>
           <p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38">
-            <b>Cargando...</b>
+            <b><FormattedMessage id="app.loading"/></b>
           </p>
         </div>
       )}
@@ -468,7 +469,7 @@ const View360 = ({ places }: { places: Place[] }) => {
                 />
 
                 <p className="text-center">
-                  Mueve el dispositivo para ver la panorámica.
+                  <FormattedMessage id="app.giroScopeActive.instructions"/>
                 </p>
               </div>
             ) : (
@@ -479,7 +480,7 @@ const View360 = ({ places }: { places: Place[] }) => {
                 />
 
                 <p className="text-center">
-                  Desliza tu dedo por la pantalla para ver la panorámica.
+                  <FormattedMessage id="app.giroScopeInactive.instructions"/>
                 </p>
               </div>
             )}

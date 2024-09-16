@@ -1,0 +1,13 @@
+{
+    "app.title": "Tour Virtual 360°",
+    "app.description": "",
+    "app.giroScopeActive.instructions": "Mueve el dispositivo para ver la panorámica.",
+    "app.giroScopeInactive.instructions": "Desliza tu dedo por la pantalla para ver la panorámica.",
+    "app.button": "Comenzar",
+    "app.loading": "Cargando...",
+    "desiertoflorido.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país.",
+    "puntaarenas.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país.",
+    "rapanui.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país.",
+    "sanpedro1.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país.",
+    "sanpedro2.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país."
+}

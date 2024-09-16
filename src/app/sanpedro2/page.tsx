@@ -3,6 +3,7 @@ import { useState } from "react";
 import View360 from "../components/view-360";
 import { Place } from "../interfaces/Place";
 import WelcomePage from "../welcomepage/welcompage";
+import { useIntl } from "react-intl";
 
 
 const places: Place[] = [
@@ -54,10 +55,13 @@ const places: Place[] = [
 const PukaraDeQuitorPage = () => {
   const [start, setStart] = useState<boolean>(false);
 
+  const intl = useIntl();
+  const descriptionPlace = intl.formatMessage({ id: 'sanpedro1.descriptionPlace'});
+
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart} namePlace={"San Pedro de Atacama  Pukara de Quitor  Catarpe"} descriptionPlace="Visita virtualmente los lugares más turísticos de nuestro país."></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace={"San Pedro de Atacama  Pukara de Quitor  Catarpe"} descriptionPlace={descriptionPlace}></WelcomePage>
   );
 };
 

@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { FormattedMessage } from "react-intl";
 
 export default function WelcomePage({
   setStart,
@@ -30,7 +31,7 @@ export default function WelcomePage({
         </div>
         <div className="w-48">
           <p className="text-lg text-[#2F2D2C;]">
-            <b>Tour Virtual 360º </b>
+            <b><FormattedMessage id="app.title"/></b>
             <br /> {namePlace}
           </p>
 
@@ -41,7 +42,7 @@ export default function WelcomePage({
             className="flex items-center justify-center space-x-2 h-10 px-10 py-6 text-sm font-medium text-white bg-[#2C7C89] rounded-full transition-colors hover:bg-[#256973]  disabled:opacity-50 disabled:pointer-events-none"
             onClick={handleClickStartButton}
           >
-            Comenzar <ArrowRight size={16} className="ml-2" />
+            <FormattedMessage id="app.button"/> <ArrowRight size={16} className="ml-2" />
           </button>
         </div>
       </div>
