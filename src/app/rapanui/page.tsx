@@ -1,62 +1,71 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import View360 from "../components/view-360";
 import { Place } from "../interfaces/Place";
 import WelcomePage from "../welcomepage/welcompage";
+import { useIntl } from "react-intl";
+import { getCurrentLanguage } from "../types";
 
 const places: Place[] = [
   {
-    description: "Descripcion del lugar",
+    nameEN: "Ahu Tongariki",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_189_191_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_189_191_m.webp",
-    name: "Ahu Tongariki",
+    nameES: "Ahu Tongariki",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Ahu Ko Te Riku",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_044_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_044_m.webp",
-    name: "Ahu Ko Te Riku",
+    nameES: "Ahu Ko Te Riku",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Anakena Beach",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_061_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_061_m.webp",
-    name: "Playa Anakena",
+    nameES: "Playa Anakena",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Anakena beach shore",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_064_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_064_m.webp",
-    name: "Orilla de playa Anakena",
+    nameES: "Orilla de playa Anakena",
   },
 
   {
-    description: "Descripcion del lugar",
+    nameEN: "Rano Kau volcano lookout",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_194_196_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_194_196_m.webp",
-    name: "Mirador al volcán Rano Kau",
+    nameES: "Mirador al volcán Rano Kau",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Ahu Nau Nau",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_062_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_062_m.webp",
-    name: "Ahu Nau Nau",
+    nameES: "Ahu Nau Nau",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Taha Complex",
     image360: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_045_360.webp",
     imageMin: "/aecl24/tour360/images/isla-de-pascua/IslaDePascua_045_m.webp",
-    name: "Complejo Taha",
+    nameES: "Complejo Taha",
   },
 ];
 
 const RapanuiPage = () => {
+  const [language, setlanguage] = useState("es");
+  
+  useEffect(() => {
+    getCurrentLanguage().then((r) => setlanguage(r));
+  }, []);
   const [start, setStart] = useState<boolean>(false);
+  const intl = useIntl();
+  const descriptionPlace = intl.formatMessage({ id: 'rapanui.descriptionPlace'});
 
   return start ? (
     <View360 places={places} />
   ) : (
-    <WelcomePage setStart={setStart} namePlace={"Isla de Pascua"} descriptionPlace="Visita virtualmente los lugares más turísticos de nuestro país."></WelcomePage>
+    <WelcomePage setStart={setStart} namePlace={language == "es" ? "Isla de Pascua" : "Easter Island"} descriptionPlace={descriptionPlace}></WelcomePage>
   );
 };
 

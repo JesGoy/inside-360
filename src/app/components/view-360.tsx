@@ -7,6 +7,8 @@ import { Compass, Maximize2, Menu, X } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import dynamic from "next/dynamic";
+import { FormattedMessage } from "react-intl";
+import { getCurrentLanguage } from "../types";
 
 const LoadAnimation = dynamic(() => import("@/app/components/load-animation"), {
   ssr: false,
@@ -15,6 +17,11 @@ const isMobileDevice = (): boolean => {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 };
 const View360 = ({ places }: { places: Place[] }) => {
+  const [language, setlanguage] = useState("es");
+  
+  useEffect(() => {
+    getCurrentLanguage().then((r) => setlanguage(r));
+  }, []);
   const elementRef = useRef(null);
   const [giroScopeActive, setgiroScopeActive] = useState<boolean>(false);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
@@ -300,7 +307,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           window.addEventListener("deviceorientation", onDeviceOrientation);
         }
       } else {
-        setgiroScopeActive(true)
+        setgiroScopeActive(true);
         window.addEventListener("deviceorientation", onDeviceOrientation);
       }
     }
@@ -347,8 +354,10 @@ const View360 = ({ places }: { places: Place[] }) => {
           }}
         >
           <LoadAnimation></LoadAnimation>
-          <p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38">
-            <b>Cargando...</b>
+          <p className="absolute top-[50%] text-[#31302c] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center text-xl -mt-38">
+            <b>
+              <FormattedMessage id="app.loading" />
+            </b>
           </p>
         </div>
       )}
@@ -359,8 +368,8 @@ const View360 = ({ places }: { places: Place[] }) => {
         height={100}
         style={{ position: "absolute", top: 10, left: 10 }}
       />
-      <label className="absolute bottom-[10%] bg-white text-xl p-3 px-5 text-center rounded-r-full">
-        <b>{currentPlace.name}</b>
+      <label className="absolute bottom-[10%] text-[#31302c] bg-white text-xl p-3 px-5 text-center rounded-r-full">
+        <b>{language == "es" ? currentPlace.nameES : currentPlace.nameEN}</b>
       </label>
       <Dialog.Root open={isOpenMenu} onOpenChange={setIsOpenMenu} modal={false}>
         {!isOpenMenu && (
@@ -399,7 +408,7 @@ const View360 = ({ places }: { places: Place[] }) => {
                       }}
                     >
                       <img src={p.imageMin} className="rounded-t-lg"></img>
-                      <p className="text-center">{p.name}</p>
+                      <p className="text-center">{language == "es" ? p.nameES : p.nameEN}</p>
                     </div>
                   ))}
                 </ScrollArea.Viewport>
@@ -455,7 +464,7 @@ const View360 = ({ places }: { places: Place[] }) => {
           <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
           <Dialog.Content
             onClick={() => setIsOpen(false)}
-            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-2/3 h-[200px] max-w-[400px]  flex items-center justify-center rounded-3xl bg-white p-1 z-50 focus:outline-none shadow-lg`}
+            className={`fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-4/5 h-[260px] max-w-[400px]  flex items-center justify-center rounded-3xl bg-white p-1 z-50 focus:outline-none shadow-lg`}
           >
             <Dialog.DialogTitle></Dialog.DialogTitle>
             <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal text-center"></Dialog.Description>
@@ -467,9 +476,10 @@ const View360 = ({ places }: { places: Place[] }) => {
                   alt="Giroscope"
                 />
 
-                <p className="text-center">
-                  Mueve el dispositivo para ver la panorámica.
+                <p className="text-center px-2">
+                  <FormattedMessage id="app.giroScopeActive.instructions" />
                 </p>
+                <button className="bg-[#2C7C89] text-white rounded-full p-3"><b>OK</b></button>
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center gap-4">
@@ -478,9 +488,10 @@ const View360 = ({ places }: { places: Place[] }) => {
                   alt="Giroscope"
                 />
 
-                <p className="text-center">
-                  Desliza tu dedo por la pantalla para ver la panorámica.
+                <p className="text-center px-2">
+                  <FormattedMessage id="app.giroScopeInactive.instructions" />
                 </p>
+                <button className="bg-[#2C7C89] text-white rounded-full p-3"><b>OK</b></button>
               </div>
             )}
           </Dialog.Content>

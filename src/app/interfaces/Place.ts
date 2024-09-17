@@ -1,6 +1,7 @@
 export interface Place {
-    name: string,
+  
+    nameEN: string,
     image360: string,
     imageMin: string,
-    description: string
+    nameES: string,
 }
