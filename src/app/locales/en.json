@@ -1,13 +1,13 @@
 {
     "app.title": "360° Virtual Tour",
     "app.description": "",
-    "app.giroScopeActive.instructions": "Move the device to view the panorama.",
-    "app.giroScopeInactive.instructions": "Slide your finger across the screen to see the panorama.",
+    "app.giroScopeActive.instructions":"Move the device to navigate through the image.",
+    "app.giroScopeInactive.instructions": "Drag your finger across the screen to navigate through the image.",
     "app.button": "Start",
     "app.loading": "Loading...",
-    "desiertoflorido.descriptionPlace": "Visit virtually the most touristic places of our country.",
-    "puntaarenas.descriptionPlace": "Visit virtually the most touristic places of our country.",
-    "rapanui.descriptionPlace": "Visit virtually the most touristic places of our country.",
-    "sanpedro1.descriptionPlace": "Visit virtually the most touristic places of our country.",
-    "sanpedro2.descriptionPlace": "Visit virtually the most touristic places of our country."
+    "desiertoflorido.descriptionPlace": "Virtually visit the most touristic places in our country.",
+    "puntaarenas.descriptionPlace": "Virtually visit the most touristic places in our country.",
+    "rapanui.descriptionPlace": "Virtually visit the most touristic places in our country.",
+    "sanpedro1.descriptionPlace": "Virtually visit the most touristic places in our country.",
+    "sanpedro2.descriptionPlace": "Virtually visit the most touristic places in our country."
 }

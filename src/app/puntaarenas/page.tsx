@@ -7,16 +7,16 @@ import { useIntl } from "react-intl";
 
 const places: Place[] = [
   {
-    description: "Descripcion del lugar",
+    nameEN: "San Isidro Lighthouse",
     image360: "/images/punta-arenas/FaroSanIsidro_360.webp",
     imageMin: "/images/punta-arenas/FaroSanIsidro_m.webp",
-    name: "Faro San Isidro",
+    nameES: "Faro San Isidro",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Landmark half of Chile",
     image360: "/images/punta-arenas/HitoMitadDeChile_3_360.webp",
     imageMin:"/images/punta-arenas/HitoMitadDeChile_3_m.webp",
-    name: "Hito la mitad de Chile",
+    nameES: "Hito la mitad de Chile",
   },
 ];
 

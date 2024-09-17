@@ -8,46 +8,46 @@ import { useIntl } from "react-intl";
 
 const places: Place[] = [
   {
-    description: "Descripcion del lugar",
+    nameEN: "Road to San Pedro de Atacama",
     image360: "/images/pukara-de-quitor/ValleDeLaLuna_Pukara_187_189_360.webp",
     imageMin:"/images/pukara-de-quitor/ValleDeLaLuna_Pukara_187_189_m.webp",
-    name: "Camino a San Pedro de Atacama",
+    nameES: "Camino a San Pedro de Atacama",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Pucará de Quitor",
     image360: "/images/pukara-de-quitor/ValleDeLaLuna_Pukara_199_201_360.webp",
     imageMin:"/images/pukara-de-quitor/ValleDeLaLuna_Pukara_199_201_m.webp",
-    name: "Pucará de Quitor",
+    nameES: "Pucará de Quitor",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Catarpe",
     image360: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_211_213_360.webp",
     imageMin: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_211_213_m.webp",
-    name: "Catarpe",
+    nameES: "Catarpe",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Catarpe",
     image360: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_223_225_360.webp",
     imageMin:"/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_223_225_m.webp",
-    name: "Catarpe",
+    nameES: "Catarpe",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Entrance to Chulacao ravine",
     image360: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_238_240_360.webp",
     imageMin:"/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_238_240_m.webp",
-    name: "Entrada a la quebrada Chulacao",
+    nameES: "Entrada a la quebrada Chulacao",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Chulacao ravine",
     image360: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_247_249_360.webp",
     imageMin:"/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_247_249_m.webp",
-    name: "Quebrada Chulacao",
+    nameES: "Quebrada Chulacao",
   },
   {
-    description: "Descripcion del lugar",
+    nameEN: "Chulacao ravine",
     image360: "/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_259_261_360.webp",
     imageMin:"/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_259_261_m.webp",
-    name: "Quebrada Chulacao",
+    nameES: "Quebrada Chulacao",
   },
 
 ];

@@ -1,8 +1,8 @@
 {
     "app.title": "Tour Virtual 360°",
     "app.description": "",
-    "app.giroScopeActive.instructions": "Mueve el dispositivo para ver la panorámica.",
-    "app.giroScopeInactive.instructions": "Desliza tu dedo por la pantalla para ver la panorámica.",
+    "app.giroScopeActive.instructions": "Mueve el dispositivo para recorrer la imagen.",
+    "app.giroScopeInactive.instructions": "Desliza tu dedo por la pantalla para recorrer la imagen.",
     "app.button": "Comenzar",
     "app.loading": "Cargando...",
     "desiertoflorido.descriptionPlace": "Visita virtualmente los lugares más turísticos de nuestro país.",
