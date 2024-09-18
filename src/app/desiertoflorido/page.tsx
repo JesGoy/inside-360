@@ -9,8 +9,8 @@ import { getCurrentLanguage } from "../types";
 const places: Place[] = [
   {
     nameEN: "Flowered desert 1",
-    image360: "/images/desierto-florido/DesiertoFlorido_20_22_360.webp",
-    imageMin: "/images/desierto-florido/DesiertoFlorido_20_22_m.webp",
+    image360: "/aecl24/tour360/images/desierto-florido/DesiertoFlorido_20_22_360.webp",
+    imageMin: "/aecl24/tour360/images/desierto-florido/DesiertoFlorido_20_22_m.webp",
     nameES: "Desierto Florido 1",
   },
   {

@@ -9,13 +9,13 @@ const places: Place[] = [
   {
     nameEN: "San Isidro Lighthouse",
     image360: "/aecl24/tour360/images/punta-arenas/FaroSanIsidro_360.webp",
-    imageMin: "/images/punta-arenas/FaroSanIsidro_m.webp",
+    imageMin: "/aecl24/tour360/images/punta-arenas/FaroSanIsidro_m.webp",
     nameES: "Faro San Isidro",
   },
   {
     nameEN: "Landmark half of Chile",
     image360: "/aecl24/tour360/images/punta-arenas/HitoMitadDeChile_3_360.webp",
-    imageMin:"/images/punta-arenas/HitoMitadDeChile_3_m.webp",
+    imageMin:"/aecl24/tour360/images/punta-arenas/HitoMitadDeChile_3_m.webp",
     nameES: "Hito la mitad de Chile",
   },
 ];

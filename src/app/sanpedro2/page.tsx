@@ -46,7 +46,7 @@ const places: Place[] = [
   {
     nameEN: "Chulacao ravine",
     image360: "/aecl24/tour360/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_259_261_360.webp",
-    imageMin:"/aecl24/tour360images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_259_261_m.webp",
+    imageMin:"/aecl24/tour360/images/quitor-catarpe/SanPedroDeAtacama_Quitor-Catarpe_259_261_m.webp",
     nameES: "Quebrada Chulacao",
   },
 
